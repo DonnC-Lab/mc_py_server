@@ -1,0 +1,1 @@
+{"id":"3f877ce0-e6ec-4617-8956-ac1c97d661c9","space":11177,"runtime":"python3.9","name":"mc_py_server","path":"py4k7k","project":"a0iayg6n","account":"144798365827","region":"eu-central-1","deps":["fastapi","uvicorn","deta","python-decouple","python-multipart"],"envs":["DETA_PROJECT_KEY"],"public":true,"log_level":"debug","cron":""}
