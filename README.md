@@ -1,7 +1,7 @@
-# MiniCampus Server
+# MiniCampus Server [online swagger](https://py4k7k.deta.dev/docs)
 
 ## Features
-Conect to [*deta]() backend services for some of the MC modules
+Connect to [*deta]() backend services for some of the MC modules
 
 ## Offline, Interactive docs
 [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
