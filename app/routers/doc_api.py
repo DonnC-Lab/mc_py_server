@@ -18,7 +18,7 @@ DETA_PROJECT_KEY = config("DETA_PROJECT_KEY")
 @router.post("/query/")
 async def query_data(
     base_name: str, 
-    filter: Optional[dict | list] = None,
+    filter: Optional[dict or list] = None,
     ):
 
     if not DETA_PROJECT_KEY:

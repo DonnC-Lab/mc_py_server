@@ -16,7 +16,7 @@ A microservice server for MiniCampus
 
 APP_CONTACT = {
     "name": "DonnC Lab",
-    "url": "https://donnc.github.io/",
+    "url": "https://github.com/DonnC/mc_py_server",
     "email": "donnclab@gmail.com"
 }
 
