@@ -1,13 +1,18 @@
 import io
 import mimetypes
+from enum import Enum
 from typing import Optional
+from csv import DictReader
+
 from fastapi import APIRouter, HTTPException, Response, UploadFile
 from fastapi.responses import JSONResponse
 from app.constants.constants import FETCH_LIMIT
 
 from decouple import config
 
-from deta import Deta 
+from deta import Deta
+
+from media_file_handler import multiple_add_course, multiple_add_fd, save_upload_file, delete_uploaded_file
 
 router = APIRouter(
     prefix="/file-api",
@@ -18,6 +23,11 @@ router = APIRouter(
 DETA_PROJECT_KEY = config("DETA_PROJECT_KEY")
 
 STATIC_DIR = "static"
+
+class TemplateEnum(str, Enum):
+    Other = 'other'
+    Course = 'course'
+    FacultyDepartment = 'faculty_department'
 
 @router.post("/upload/")
 async def create_upload_file(
@@ -54,6 +64,46 @@ async def create_upload_file(
     except Exception as err:
         print('[UPLOAD-ERROR] ', err)
         raise HTTPException(status_code=400, detail="Failed to upload file")
+
+@router.post("/template/upload/")
+async def tpl_upload_file(
+    file: UploadFile, 
+    base_name: str, 
+    template: TemplateEnum,
+    ):
+    '''
+        faculty: faculty_dptDB
+        course: learn_courseDB
+    '''
+
+    if not DETA_PROJECT_KEY:
+        raise HTTPException(status_code=400, detail="No deta project key found!")
+
+    if template.value == 'other':
+        raise HTTPException(status_code=400, detail="No valid template selected!")
+
+    try:
+        cached_csv = await save_upload_file(file)
+
+        result = 'err'
+
+        if template.value == 'course':
+            result = await multiple_add_course(base_name, cached_csv)
+
+        if template.value == 'faculty_department':
+            result = await multiple_add_fd(base_name, cached_csv)
+
+         # delete once done
+        await delete_uploaded_file(file.filename)
+
+        return JSONResponse({
+            "status": "OK",
+            "message": result
+        })
+
+    except Exception as err:
+        print('[UPLOAD-ERROR] ', err)
+        raise HTTPException(status_code=400, detail="Failed to upload template file")
 
 @router.get("/download/")
 async def download_file(
