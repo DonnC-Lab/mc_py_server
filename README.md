@@ -1,4 +1,4 @@
-# MiniCampus Server [online swagger](https://py4k7k.deta.dev/docs)
+# MiniCampus Server
 
 ## Features
 Connect to [*deta]() backend services for some of the MC modules
